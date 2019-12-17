@@ -23,6 +23,7 @@ interface State {
 
 class App extends React.Component<{}, State> {
   private soundManager: SoundManager;
+  private buttons: Map<string, HTMLElement>;
 
   constructor() {
     super({});
@@ -30,9 +31,14 @@ class App extends React.Component<{}, State> {
       isOn: true,
       isPiano: false
     };
+    this.buttons = new Map();
     this.soundManager = new SoundManager(HeaterKit);
     document.onkeypress = this.onKeyPress;
   }
+
+  setInputRef = (input: HTMLInputElement) => {
+    this.buttons.set(input.id, input);
+  };
 
   onKeyPress = (evt: any) => {
     if (!this.state.isOn) return;
@@ -41,9 +47,11 @@ class App extends React.Component<{}, State> {
     const charCode = evt.keyCode || evt.which;
     const charStr = String.fromCharCode(charCode).toUpperCase();
     this.soundManager.play(charStr);
+    //const btn = this.buttons.get(charStr);
+    //btn!.click();
   };
 
-  onclickButton = (e: React.MouseEvent<HTMLElement>) => {
+  onClickButton = (e: React.MouseEvent<HTMLElement>) => {
     if (this.state.isOn) this.soundManager.play(e.currentTarget.id);
   };
 
@@ -86,57 +94,66 @@ class App extends React.Component<{}, State> {
               id="Q"
               value="Q"
               type="button"
-              onClick={this.onclickButton}
+              onClick={this.onClickButton}
+              ref={this.setInputRef}
             />
             <input
               id="W"
               value="W"
               type="button"
-              onClick={this.onclickButton}
+              onClick={this.onClickButton}
+              ref={this.setInputRef}
             />
             <input
               id="E"
               value="E"
               type="button"
-              onClick={this.onclickButton}
+              onClick={this.onClickButton}
+              ref={this.setInputRef}
             />
 
             <input
               id="A"
               value="A"
               type="button"
-              onClick={this.onclickButton}
+              onClick={this.onClickButton}
+              ref={this.setInputRef}
             />
             <input
               id="S"
               value="S"
               type="button"
-              onClick={this.onclickButton}
+              onClick={this.onClickButton}
+              ref={this.setInputRef}
             />
             <input
               id="D"
               value="D"
               type="button"
-              onClick={this.onclickButton}
+              onClick={this.onClickButton}
+              ref={this.setInputRef}
             />
 
             <input
               id="Z"
               value="Z"
               type="button"
-              onClick={this.onclickButton}
+              onClick={this.onClickButton}
+              ref={this.setInputRef}
             />
             <input
               id="X"
               value="X"
               type="button"
-              onClick={this.onclickButton}
+              onClick={this.onClickButton}
+              ref={this.setInputRef}
             />
             <input
               id="C"
               value="C"
               type="button"
-              onClick={this.onclickButton}
+              onClick={this.onClickButton}
+              ref={this.setInputRef}
             />
           </div>
         </div>
