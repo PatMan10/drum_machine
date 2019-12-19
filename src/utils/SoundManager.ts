@@ -8,6 +8,7 @@ interface SoundSource {
   Z: string;
   X: string;
   C: string;
+  [key: string]: string;
 }
 
 interface Sounds {
@@ -23,50 +24,20 @@ interface Sounds {
 }
 
 class SoundManager {
-  private sounds: Sounds;
+  private sounds: Map<string, HTMLAudioElement>;
 
   constructor(src: SoundSource) {
-    this.sounds = {
-      Q: new Audio(src.Q),
-      W: new Audio(src.W),
-      E: new Audio(src.E),
-
-      A: new Audio(src.A),
-      S: new Audio(src.S),
-      D: new Audio(src.D),
-
-      Z: new Audio(src.Z),
-      X: new Audio(src.X),
-      C: new Audio(src.C)
-    };
+    this.sounds = new Map();
+    for (const key in src) this.sounds.set(key, new Audio(src[key]));
   }
 
   play(id: string) {
-    if (id === "Q") this.sounds.Q.play();
-    if (id === "W") this.sounds.W.play();
-    if (id === "E") this.sounds.E.play();
-
-    if (id === "A") this.sounds.A.play();
-    if (id === "S") this.sounds.S.play();
-    if (id === "D") this.sounds.D.play();
-
-    if (id === "Z") this.sounds.Z.play();
-    if (id === "X") this.sounds.X.play();
-    if (id === "C") this.sounds.C.play();
+    const sound = this.sounds.get(id);
+    if (sound) sound.play();
   }
 
   setSource(src: SoundSource) {
-    this.sounds.Q.src = src.Q;
-    this.sounds.W.src = src.W;
-    this.sounds.E.src = src.E;
-
-    this.sounds.A.src = src.A;
-    this.sounds.S.src = src.S;
-    this.sounds.D.src = src.D;
-
-    this.sounds.Z.src = src.Z;
-    this.sounds.X.src = src.X;
-    this.sounds.C.src = src.C;
+    for (const key in src) this.sounds.get(key)!.src = src[key];
   }
 }
 
