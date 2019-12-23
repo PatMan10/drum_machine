@@ -19,6 +19,7 @@ import PianoKit from "./assets/audio/piano_kit/PianoKit";
 interface State {
   isOn: boolean;
   isPiano: boolean;
+  soundName: string;
 }
 
 class App extends React.Component<{}, State> {
@@ -28,7 +29,8 @@ class App extends React.Component<{}, State> {
     super({});
     this.state = {
       isOn: true,
-      isPiano: false
+      isPiano: false,
+      soundName: "Lick balls"
     };
     this.soundManager = new SoundManager(HeaterKit);
     document.onkeypress = this.onKeyPress;
@@ -60,7 +62,7 @@ class App extends React.Component<{}, State> {
   };
 
   render() {
-    const { isOn, isPiano } = this.state;
+    const { isOn, isPiano, soundName } = this.state;
     return (
       <main className="flex-col-aiC-jcC h-100vh">
         <div id="drum-machine" className="flex-col-aiC p-05e">
@@ -79,7 +81,7 @@ class App extends React.Component<{}, State> {
                 onClick={this.toggleBank}
               />
             </div>
-            <div className="yellow-bg">Some Sound</div>
+            <div className="yellow-bg">{soundName}</div>
           </div>
 
           <div id="drum-pad">
