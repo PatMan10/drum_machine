@@ -79,6 +79,7 @@ class App extends React.Component<{}, State> {
                 onClick={this.toggleBank}
               />
             </div>
+            <div className="yellow-bg">Some Sound</div>
           </div>
 
           <div id="drum-pad">
