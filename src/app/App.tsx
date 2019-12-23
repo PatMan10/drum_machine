@@ -7,9 +7,9 @@ import "./css/desktop.css";
 //------------LIBS-------------
 import React from "react";
 //------------UTILS-------------
-import C from "./utils/Constants";
-import F from "./utils/Functions";
-import SoundManager from "./utils/SoundManager";
+import C from "./utils/classes/Constants";
+import F from "./utils/classes/Functions";
+import SoundManager from "./utils/classes/SoundManager";
 //------------UI_COMPS-------------
 import Toggle from "./ui_components/toggle/Toggle";
 //------------AUDIO-------------
