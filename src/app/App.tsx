@@ -9,7 +9,7 @@ import React from "react";
 //------------UTILS-------------
 import C from "./utils/classes/Constants";
 import F from "./utils/classes/Functions";
-import SoundManager from "./utils/classes/SoundManager";
+import AudioManager from "./utils/classes/audio/AudioManager";
 //------------UI_COMPS-------------
 import Toggle from "./ui_components/toggle/Toggle";
 //------------AUDIO-------------
@@ -23,18 +23,25 @@ interface State {
 }
 
 class App extends React.Component<{}, State> {
-  private soundManager: SoundManager;
+  private soundManager: AudioManager;
 
   constructor() {
     super({});
     this.state = {
       isOn: true,
       isPiano: false,
-      soundName: "Lick balls"
+      soundName: "Drum Machine"
     };
-    this.soundManager = new SoundManager(HeaterKit);
+    this.soundManager = new AudioManager(HeaterKit);
     document.onkeypress = this.onKeyPress;
   }
+
+  playAudio = (id: string) => {
+    this.soundManager.playAudio(id);
+    this.setState({
+      soundName: this.soundManager.getAudioName(id)
+    });
+  };
 
   onKeyPress = (evt: any) => {
     if (!this.state.isOn) return;
@@ -42,11 +49,11 @@ class App extends React.Component<{}, State> {
     evt = evt || window.event;
     const charCode = evt.keyCode || evt.which;
     const charStr = String.fromCharCode(charCode).toUpperCase();
-    this.soundManager.play(charStr);
+    this.playAudio(charStr);
   };
 
   onClickButton = (e: React.MouseEvent<HTMLElement>) => {
-    if (this.state.isOn) this.soundManager.play(e.currentTarget.id);
+    if (this.state.isOn) this.playAudio(e.currentTarget.id);
   };
 
   togglePower = () => {
@@ -56,7 +63,7 @@ class App extends React.Component<{}, State> {
   toggleBank = () => {
     this.setState(curState => {
       const src = curState.isPiano ? HeaterKit : PianoKit;
-      this.soundManager.setSource(src);
+      this.soundManager.setAudioURLs(src);
       return { isPiano: !curState.isPiano };
     });
   };
