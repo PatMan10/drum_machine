@@ -16,21 +16,23 @@ import Toggle from "./ui_components/toggle/Toggle";
 import HeaterKit from "./assets/audio/heater_kit/HeaterKit";
 import PianoKit from "./assets/audio/piano_kit/PianoKit";
 
+interface Props {}
+
 interface State {
   isOn: boolean;
-  isPiano: boolean;
-  soundName: string;
+  audioKit: string;
+  displayMessage: string;
 }
 
-class App extends React.Component<{}, State> {
+class App extends React.Component<Props, State> {
   private soundManager: AudioManager;
 
-  constructor() {
-    super({});
+  constructor(props: Props) {
+    super(props);
     this.state = {
       isOn: true,
-      isPiano: false,
-      soundName: "Drum Machine"
+      audioKit: "heater",
+      displayMessage: "Drum Machine"
     };
     this.soundManager = new AudioManager(HeaterKit);
     document.onkeypress = this.onKeyPress;
@@ -39,7 +41,7 @@ class App extends React.Component<{}, State> {
   playAudio = (id: string) => {
     this.soundManager.playAudio(id);
     this.setState({
-      soundName: this.soundManager.getAudioName(id)
+      displayMessage: this.soundManager.getAudioName(id)
     });
   };
 
@@ -60,35 +62,45 @@ class App extends React.Component<{}, State> {
     this.setState(curState => ({ isOn: !curState.isOn }));
   };
 
-  toggleBank = () => {
-    this.setState(curState => {
-      const src = curState.isPiano ? HeaterKit : PianoKit;
-      this.soundManager.setAudioURLs(src);
-      return { isPiano: !curState.isPiano };
-    });
+  onChangeAudioKit = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newValue = e.currentTarget.value;
+    let audioURLs;
+
+    if (newValue === "heater") audioURLs = HeaterKit;
+    else audioURLs = PianoKit;
+
+    this.soundManager.setAudioURLs(audioURLs);
+    this.setState({ audioKit: newValue });
   };
 
   render() {
-    const { isOn, isPiano, soundName } = this.state;
+    const { isOn, audioKit, displayMessage } = this.state;
     return (
       <main className="flex-col-aiC-jcC h-100vh">
         <div id="drum-machine" className="flex-col-aiC p-05e">
           <div id="display" className="red-bg flex-col-aiC w-100p">
-            <div className="pink-bg flex-row flex-jcSB w-40p">
+            <div className="pink-bg flex-row flex-jcSB">
               <Toggle
                 id="power"
                 label="Power"
                 isToggled={isOn}
                 onClick={this.togglePower}
               />
-              <Toggle
-                id="bank"
-                label="Bank"
-                isToggled={isPiano}
-                onClick={this.toggleBank}
-              />
+
+              <div className="flex-col-aiC">
+                <label htmlFor="audio-kit">Audio Kit</label>
+                <select
+                  id="select-audio-kit"
+                  name="audio-kit"
+                  onChange={this.onChangeAudioKit}
+                  value={audioKit}
+                >
+                  <option value="heater">Heater</option>
+                  <option value="piano">Piano</option>
+                </select>
+              </div>
             </div>
-            <div className="yellow-bg">{soundName}</div>
+            <div className="yellow-bg">{displayMessage}</div>
           </div>
 
           <div id="drum-pad">
