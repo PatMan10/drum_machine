@@ -1,0 +1,20 @@
+.volume-controller {
+  align-items: flex-end;
+  display: flex;
+}
+
+.volume-bar {
+  width: 5px;
+}
+
+.volume-bar:hover {
+  background-color: gray;
+}
+
+.volume-bar {
+  $height: 5px;
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) { height: $height;}
+    $height: $height + 3px;
+  }
+}

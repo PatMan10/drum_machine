@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./toggle.css";
+import "./toggle.scss";
 
 interface Props {
   id: string;

@@ -2,8 +2,8 @@
 import "normalize.css/normalize.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "pmt-kickstart.css/src/kickstart.min.css";
-import "./css/mobile.css";
-import "./css/desktop.css";
+import "./scss/mobile.scss";
+import "./scss/desktop.scss";
 //------------LIBS-------------
 import React from "react";
 //------------UTILS-------------
@@ -12,6 +12,7 @@ import F from "./utils/classes/Functions";
 import AudioManager from "./utils/classes/audio/AudioManager";
 //------------UI_COMPS-------------
 import Toggle from "./ui_components/toggle/Toggle";
+import VolumeController from "./ui_components/volume_controller/VolumeController";
 //------------AUDIO-------------
 import HeaterKit from "./assets/audio/heater_kit/HeaterKit";
 import PianoKit from "./assets/audio/piano_kit/PianoKit";
@@ -64,13 +65,17 @@ class App extends React.Component<Props, State> {
 
   onChangeAudioKit = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newValue = e.currentTarget.value;
-    let audioURLs;
+    let audioURLs, displayMessage;
 
-    if (newValue === "heater") audioURLs = HeaterKit;
-    else audioURLs = PianoKit;
-
+    if (newValue === "heater") {
+      audioURLs = HeaterKit;
+      displayMessage = "Heater Kit";
+    } else {
+      audioURLs = PianoKit;
+      displayMessage = "Piano Kit";
+    }
     this.soundManager.setAudioURLs(audioURLs);
-    this.setState({ audioKit: newValue });
+    this.setState({ audioKit: newValue, displayMessage });
   };
 
   render() {
@@ -102,6 +107,8 @@ class App extends React.Component<Props, State> {
             </div>
             <div className="yellow-bg">{displayMessage}</div>
           </div>
+
+          <VolumeController />
 
           <div id="drum-pad">
             <input
