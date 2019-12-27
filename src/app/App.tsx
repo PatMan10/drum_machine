@@ -6,8 +6,6 @@ import "./app.scss";
 //------------LIBS-------------
 import React from "react";
 //------------UTILS-------------
-import C from "./utils/classes/Constants";
-import F from "./utils/classes/Functions";
 import AudioManager from "./utils/classes/audio/AudioManager";
 //------------UI_COMPS-------------
 import AudioKitSelector from "./ui_components/audio_kit_selector/AudioKitSelector";
