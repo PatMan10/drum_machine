@@ -1,20 +1,13 @@
-.volume-controller {
-  align-items: flex-end;
-  display: flex;
+.slidecontainer {
+  width: 100%;
 }
 
-.volume-bar {
-  width: 5px;
+.slider {
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
 }
 
-.volume-bar:hover {
-  background-color: gray;
-}
-
-.volume-bar {
-  $height: 5px;
-  @for $i from 1 through 10 {
-    &:nth-child(#{$i}) { height: $height;}
-    $height: $height + 3px;
-  }
+.slider:hover {
+  opacity: 1;
 }

@@ -1,0 +1,15 @@
+/*----------------Mobile---------------*/
+body {
+  background-color: lime;
+}
+
+div[id="drum-machine"] {
+  border: 2px solid gold;
+}
+
+/*-----------------Desktop-------------*/
+@media (min-width: 601px) {
+  body {
+    background-color: magenta;
+  }
+}

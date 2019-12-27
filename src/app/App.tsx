@@ -2,8 +2,7 @@
 import "normalize.css/normalize.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "pmt-kickstart.css/src/kickstart.min.css";
-import "./scss/mobile.scss";
-import "./scss/desktop.scss";
+import "./app.scss";
 //------------LIBS-------------
 import React from "react";
 //------------UTILS-------------
@@ -11,6 +10,9 @@ import C from "./utils/classes/Constants";
 import F from "./utils/classes/Functions";
 import AudioManager from "./utils/classes/audio/AudioManager";
 //------------UI_COMPS-------------
+import AudioKitSelector from "./ui_components/audio_kit_selector/AudioKitSelector";
+import DrumPad from "./ui_components/drum_pad/DrumPad";
+import MessageBox from "./ui_components/message_box/MessageBox";
 import Toggle from "./ui_components/toggle/Toggle";
 import VolumeController from "./ui_components/volume_controller/VolumeController";
 //------------AUDIO-------------
@@ -21,8 +23,9 @@ interface Props {}
 
 interface State {
   isOn: boolean;
-  audioKit: string;
+  audioKitName: string;
   displayMessage: string;
+  volume: string;
 }
 
 class App extends React.Component<Props, State> {
@@ -32,8 +35,9 @@ class App extends React.Component<Props, State> {
     super(props);
     this.state = {
       isOn: true,
-      audioKit: "heater",
-      displayMessage: "Drum Machine"
+      audioKitName: "heater",
+      displayMessage: "Drum Machine",
+      volume: "50"
     };
     this.soundManager = new AudioManager(HeaterKit);
     document.onkeypress = this.onKeyPress;
@@ -46,11 +50,11 @@ class App extends React.Component<Props, State> {
     });
   };
 
-  onKeyPress = (evt: any) => {
+  onKeyPress = (e: any) => {
     if (!this.state.isOn) return;
 
-    evt = evt || window.event;
-    const charCode = evt.keyCode || evt.which;
+    e = e || window.event;
+    const charCode = e.keyCode || e.which;
     const charStr = String.fromCharCode(charCode).toUpperCase();
     this.playAudio(charStr);
   };
@@ -64,6 +68,8 @@ class App extends React.Component<Props, State> {
   };
 
   onChangeAudioKit = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (!this.state.isOn) return;
+
     const newValue = e.currentTarget.value;
     let audioURLs, displayMessage;
 
@@ -75,97 +81,45 @@ class App extends React.Component<Props, State> {
       displayMessage = "Piano Kit";
     }
     this.soundManager.setAudioURLs(audioURLs);
-    this.setState({ audioKit: newValue, displayMessage });
+    this.setState({ audioKitName: newValue, displayMessage });
+  };
+
+  onChangeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!this.state.isOn) return;
+
+    const volume = e.currentTarget.value;
+    this.soundManager.setVolume(Number(volume));
+    this.setState({ volume });
   };
 
   render() {
-    const { isOn, audioKit, displayMessage } = this.state;
+    const { isOn, audioKitName, displayMessage, volume } = this.state;
     return (
       <main className="flex-col-aiC-jcC h-100vh">
         <div id="drum-machine" className="flex-col-aiC p-05e">
           <div id="display" className="red-bg flex-col-aiC w-100p">
-            <div className="pink-bg flex-row flex-jcSB">
-              <Toggle
-                id="power"
-                label="Power"
-                isToggled={isOn}
-                onClick={this.togglePower}
-              />
+            <Toggle
+              id="power"
+              label="Power"
+              isToggled={isOn}
+              onClick={this.togglePower}
+            />
 
-              <div className="flex-col-aiC">
-                <label htmlFor="audio-kit">Audio Kit</label>
-                <select
-                  id="select-audio-kit"
-                  name="audio-kit"
-                  onChange={this.onChangeAudioKit}
-                  value={audioKit}
-                >
-                  <option value="heater">Heater</option>
-                  <option value="piano">Piano</option>
-                </select>
-              </div>
-            </div>
-            <div className="yellow-bg">{displayMessage}</div>
+            <AudioKitSelector
+              onChange={this.onChangeAudioKit}
+              value={audioKitName}
+            />
+
+            <MessageBox message={displayMessage} />
+
+            <VolumeController
+              id="volume-contoller"
+              value={volume}
+              onChangeHandler={this.onChangeVolume}
+            />
           </div>
 
-          <VolumeController />
-
-          <div id="drum-pad">
-            <input
-              id="Q"
-              value="Q"
-              type="button"
-              onClick={this.onClickButton}
-            />
-            <input
-              id="W"
-              value="W"
-              type="button"
-              onClick={this.onClickButton}
-            />
-            <input
-              id="E"
-              value="E"
-              type="button"
-              onClick={this.onClickButton}
-            />
-            <input
-              id="A"
-              value="A"
-              type="button"
-              onClick={this.onClickButton}
-            />
-            <input
-              id="S"
-              value="S"
-              type="button"
-              onClick={this.onClickButton}
-            />
-            <input
-              id="D"
-              value="D"
-              type="button"
-              onClick={this.onClickButton}
-            />
-            <input
-              id="Z"
-              value="Z"
-              type="button"
-              onClick={this.onClickButton}
-            />
-            <input
-              id="X"
-              value="X"
-              type="button"
-              onClick={this.onClickButton}
-            />
-            <input
-              id="C"
-              value="C"
-              type="button"
-              onClick={this.onClickButton}
-            />
-          </div>
+          <DrumPad onClick={this.onClickButton} />
         </div>
       </main>
     );
