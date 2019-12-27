@@ -29,7 +29,7 @@ interface State {
 }
 
 class App extends React.Component<Props, State> {
-  private soundManager: AudioManager;
+  private audioManager: AudioManager;
 
   constructor(props: Props) {
     super(props);
@@ -39,14 +39,14 @@ class App extends React.Component<Props, State> {
       displayMessage: "Drum Machine",
       volume: "50"
     };
-    this.soundManager = new AudioManager(HeaterKit);
+    this.audioManager = new AudioManager(HeaterKit);
     document.onkeypress = this.onKeyPress;
   }
 
   playAudio = (id: string) => {
-    this.soundManager.playAudio(id);
+    this.audioManager.playAudio(id);
     this.setState({
-      displayMessage: this.soundManager.getAudioName(id)
+      displayMessage: this.audioManager.getAudioName(id)
     });
   };
 
@@ -64,7 +64,10 @@ class App extends React.Component<Props, State> {
   };
 
   togglePower = () => {
-    this.setState(curState => ({ isOn: !curState.isOn }));
+    this.setState(curState => ({
+      isOn: !curState.isOn,
+      displayMessage: curState.isOn ? "Power Off" : "Power On"
+    }));
   };
 
   onChangeAudioKit = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -80,7 +83,7 @@ class App extends React.Component<Props, State> {
       audioURLs = PianoKit;
       displayMessage = "Piano Kit";
     }
-    this.soundManager.setAudioURLs(audioURLs);
+    this.audioManager.setAudioURLs(audioURLs);
     this.setState({ audioKitName: newValue, displayMessage });
   };
 
@@ -88,27 +91,30 @@ class App extends React.Component<Props, State> {
     if (!this.state.isOn) return;
 
     const volume = e.currentTarget.value;
-    this.soundManager.setVolume(Number(volume));
-    this.setState({ volume });
+    const displayMessage = "Volume " + volume;
+    this.audioManager.setVolume(Number(volume));
+    this.setState({ displayMessage, volume });
   };
 
   render() {
     const { isOn, audioKitName, displayMessage, volume } = this.state;
     return (
       <main className="flex-col-aiC-jcC h-100vh">
-        <div id="drum-machine" className="flex-col-aiC p-05e">
-          <div id="display" className="red-bg flex-col-aiC w-100p">
-            <Toggle
-              id="power"
-              label="Power"
-              isToggled={isOn}
-              onClick={this.togglePower}
-            />
+        <div id="drum-machine" className="silver-bg flex-col-aiC p-05e">
+          <div id="display" className="flex-col-aiC flex-jcSB w-100p">
+            <div className="flex-row flex-jcSB w-65p">
+              <Toggle
+                id="power-toggle"
+                label="Power"
+                isToggled={isOn}
+                onClick={this.togglePower}
+              />
 
-            <AudioKitSelector
-              onChange={this.onChangeAudioKit}
-              value={audioKitName}
-            />
+              <AudioKitSelector
+                onChange={this.onChangeAudioKit}
+                value={audioKitName}
+              />
+            </div>
 
             <MessageBox message={displayMessage} />
 

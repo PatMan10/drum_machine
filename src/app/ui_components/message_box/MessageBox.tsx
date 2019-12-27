@@ -8,8 +8,11 @@ interface Props {
 
 const MessageBox: React.FC<Props> = ({ message }) => {
   return (
-    <div className="yellow-bg flex-col-aiC-jcC">
-      <label>{message}</label>
+    <div
+      id="message-box"
+      className="whiteSmoke-bg flex-col-aiC-jcC h-30p w-65p"
+    >
+      <label id="message">{message}</label>
     </div>
   );
 };

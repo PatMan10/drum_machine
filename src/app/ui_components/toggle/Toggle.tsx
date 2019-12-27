@@ -19,7 +19,7 @@ const Toggle: React.FC<Props> = ({ id, label, onClick, isToggled }) => {
     toggleClasses += " bg-secondary";
   }
   return (
-    <div className="cyan-bg toggle-container vertical">
+    <div className="toggle-container vertical">
       <label>{label}</label>
       <div id={id} className={toggleClasses} onClick={onClick}>
         <div className={toggleBallClasses}></div>

@@ -10,10 +10,10 @@ interface Props {
 
 const VolumeController: React.FC<Props> = ({ id, value, onChangeHandler }) => {
   return (
-    <div className="salmon-bg slide-container">
+    <div className="whiteSmoke-bg flex-col-aiC-jcC w-65p">
       <input
         id={id}
-        className="red-bg slider"
+        className="slider"
         max="100"
         min="0"
         onChange={onChangeHandler}

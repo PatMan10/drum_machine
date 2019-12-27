@@ -7,6 +7,15 @@ div[id="drum-machine"] {
   border: 2px solid gold;
 }
 
+div[id="display"] {
+  margin-bottom: 20px;
+  min-height: 180px;
+}
+
+div[id="display"] label {
+  font-weight: bold;
+}
+
 /*-----------------Desktop-------------*/
 @media (min-width: 601px) {
   body {
