@@ -10,7 +10,7 @@ interface Props {
 
 const VolumeController: React.FC<Props> = ({ id, value, onChangeHandler }) => {
   return (
-    <div className="whiteSmoke-bg flex-col-aiC-jcC w-65p">
+    <div className="w-65p">
       <input
         id={id}
         className="slider"
