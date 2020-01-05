@@ -1,3 +1,22 @@
 select[id="select-audio-kit"] {
   cursor: pointer;
 }
+
+.select-container > label,
+select[id="audio-kit-select"] {
+  font-size: 1.1em;
+}
+
+@media (min-width: 360px) {
+  .select-container > label,
+  select[id="audio-kit-select"] {
+    font-size: 1.2em;
+  }
+}
+
+@media (min-width: 400px) {
+  .select-container > label,
+  select[id="audio-kit-select"] {
+    font-size: 1.3em;
+  }
+}

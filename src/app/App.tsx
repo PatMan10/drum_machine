@@ -1,5 +1,5 @@
 //------------CSS-------------
-import "normalize.css/normalize.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "pmt-kickstart.css/src/kickstart.min.css";
 import "./app.scss";
@@ -11,7 +11,7 @@ import AudioManager from "./utils/classes/audio/AudioManager";
 import AudioKitSelector from "./ui_components/audio_kit_selector/AudioKitSelector";
 import DrumPad from "./ui_components/drum_pad/DrumPad";
 import MessageBox from "./ui_components/message_box/MessageBox";
-import Toggle from "./ui_components/toggle/Toggle";
+import PowerToggle from "./ui_components/power_toggle/PowerToggle";
 import VolumeController from "./ui_components/volume_controller/VolumeController";
 //------------AUDIO-------------
 import HeaterKit from "./assets/audio/heater_kit/HeaterKit";
@@ -97,11 +97,11 @@ class App extends React.Component<Props, State> {
   render() {
     const { isOn, audioKitName, displayMessage, volume } = this.state;
     return (
-      <main className="flex-col-aiC-jcC h-100vh">
+      <main className="flex-col-aiC-jcC">
         <div id="drum-machine" className="silver-bg flex-col-aiC p-05e">
           <div id="display" className="flex-col-aiC flex-jcSB w-100p">
             <div className="flex-row flex-jcSB w-65p">
-              <Toggle
+              <PowerToggle
                 id="power-toggle"
                 label="Power"
                 isToggled={isOn}

@@ -5,3 +5,15 @@ div[id="message-box"] {
 label[id="message"] {
   font-size: 1.2em;
 }
+
+@media (min-width: 360px) {
+  label[id="message"] {
+    font-size: 1.3em;
+  }
+}
+
+@media (min-width: 400px) {
+  label[id="message"] {
+    font-size: 1.4em;
+  }
+}

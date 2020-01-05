@@ -9,10 +9,10 @@ interface Props {
 
 const AudioKitSelector: React.FC<Props> = ({ onChange, value }) => {
   return (
-    <div className="flex-col-aiC">
+    <div className="flex-col-aiC select-container">
       <label htmlFor="audio-kit">Audio Kit</label>
       <select
-        id="select-audio-kit"
+        id="audio-kit-select"
         name="audio-kit"
         onChange={onChange}
         value={value}
